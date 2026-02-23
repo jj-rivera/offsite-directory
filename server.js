@@ -133,6 +133,17 @@ app.get('/api/members', async (req, res) => {
   }
 });
 
+// Debug endpoint — remove after deploy is working
+app.get('/api/debug', (req, res) => {
+  res.json({
+    hasToken: !!process.env.SLACK_BOT_TOKEN,
+    tokenPrefix: (process.env.SLACK_BOT_TOKEN || '').substring(0, 10),
+    channelId: process.env.SLACK_CHANNEL_ID || 'NOT SET',
+    teamId: process.env.SLACK_TEAM_ID || 'NOT SET',
+    channelIdOverride: CHANNEL_ID_OVERRIDE,
+  });
+});
+
 app.post('/api/refresh', async (req, res) => {
   cachedMembers = null;
   cacheTimestamp = null;
